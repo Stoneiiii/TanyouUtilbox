@@ -1,0 +1,18 @@
+# 上传文件保存路径和访问路径
+file:
+  staticPatterPath: /upload/
+  uploadFolder: /tmp/
+
+# 自定义tomcat临时文件目录
+#server:
+#  tomcat:
+#    basedir: /tmp
+
+# 自定义上传的配置
+spring:
+  servlet:
+    multipart:
+      location: /tmp
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 10MB

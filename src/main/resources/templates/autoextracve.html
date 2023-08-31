@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>提取补丁命令</title>
+</head>
+<body class="am-text-center">
+    <div class="set_center">
+        <h1>生成从官网提取补丁的命令</h1>
+        <!--如果msg为空则不显示-->
+        <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+        <label>漏洞名:</label>
+        <input type="text" class="form-control" id="cvename" required="required" autofocus=""><br>
+        <label>URL&emsp;:</label>
+        <input type="text" id="url" class="form-control" required="required" autofocus=""><br>
+        <button class="btn-box" id="generate">生成</button><br>
+        <span id="res"></span>
+    </div>
+    <div>
+        <h1>文件上传</h1>
+<!--        action="/utlibox/htmlparse" method="post" enctype="multipart/form-data"-->
+        <form>
+            <input type="text" name="dir" value="avatar" hidden>
+            <input type="file" id="fileInput" name="file" accept="text/html">
+            <input type="submit" id="upload" value="上传"><br>
+            对应官方的：<1>Framework <2>System <3>Kernel 等<br>
+            <label>补丁种类:</label>
+            <input type="text" id="type" class="form-control" required="required" autofocus=""><br>
+        </form>
+    </div>
+
+    <div id="cvetable" th:fragment="cvetable">
+        <table>
+            <tr>
+                <th>漏洞名</th>
+                <th>CMD</th>
+            </tr>
+            <tr th:each="map:${Map}">
+                <td th:text="${map.key}"></td>
+                <td th:text="${map.value}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="webjars/jquery/3.4.1/jquery.min.js"></script>
+<script>
+        $("#generate").click(function() {
+            $.ajax({
+                url: "/utlibox/autogetcve",
+                type: 'POST',
+                dataType: "text",
+                data: {
+                    "cvename": $("#cvename").val(),
+                    "url": $("#url").val()
+                },
+                success: function (data) {
+                    if (data.toString() === "") {
+                        alert("输入有误！！");
+                    } else {
+                        $("#res").html(data)
+                    }
+                },
+                error: function () {
+                    alert("输入有误！请重新输入！");
+                }
+            });
+        });
+</script>
+
+<script>
+    $("#upload").click(function(e) {
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('file', $('#fileInput')[0].files[0]);
+        formData.append('type', $('#type').val());
+        $.ajax({
+            url: "/utlibox/htmlparse",
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.toString() === "") {
+                    alert("输入有误！！");
+                } else {
+                    $("#cvetable").html(data);
+                }
+            },
+            error: function () {
+                alert("输入有误！请重新输入！");
+            }
+        });
+    });
+</script>
+
+
+</html>
