@@ -23,7 +23,6 @@ public class UtliboxController {
 
 
 
-    //todo:上传文件
     @GetMapping("/getallfilepath/{path}")
     public List<String> getAllFilePath(@PathVariable String path) {
         return null;
@@ -49,7 +48,6 @@ public class UtliboxController {
         String type = request.getParameter("type");
         System.out.println(type);
         Map<String, List<String>> cvenameUrlMap = ubliboxService.parseHtml(multipartFile, dir, type);
-        //todo: 20965 补丁中有多个URL Map 存储不行 只能一个  解决：加计数 key为20965（2）
         Map<String, String> returnValue = new LinkedHashMap<>();
         for (String cvename : cvenameUrlMap.keySet()) {
             int count = 0; //计数url个数：也就是一个cvename 对应多个补丁

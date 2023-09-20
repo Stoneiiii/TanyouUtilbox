@@ -103,14 +103,15 @@ public class UtliboxServiceImpl implements UbliboxService {
         extractPatchCMD = extractPatchCMD + commit + " && " + "git format-patch -1 " + commit;
         movePatchCMD = movePatchCMD + "/" + path + "${name/0001/000$b}\"; done\n && gst";
 
-        return creatPatchDirCMD + " && " + fileNumCMD + " && " + intoPatchDirCMD + " && " + extractPatchCMD + " && " + movePatchCMD;
+        //加显示成功
+        String resultcmd = " && echo -e \"\\033[43;32m 提取成功！！\\033[0m\"";
+        return creatPatchDirCMD + " && " + fileNumCMD + " && " + intoPatchDirCMD + " && " + extractPatchCMD + " && " + movePatchCMD + resultcmd;
     }
 
     @Override
     public Map<String, List<String>> parseHtml(MultipartFile multipartFile, String dir, String type) {
         String targetFilePath = uploadService.getUploadFileABSPath(multipartFile, dir);
         System.out.println(targetFilePath);
-        //todo: 1. ajax 跳转 上传后页面 2. 后续调用python解析html返回<cvename, url>
 
         String pythonReturn = null;
         //python路径
@@ -162,7 +163,7 @@ public class UtliboxServiceImpl implements UbliboxService {
 //            }
 //        }
 
-
+        //TODO: 判断影响安卓版本包含13？因为有些补丁并没有影响13
         return returnMap;
     }
 }

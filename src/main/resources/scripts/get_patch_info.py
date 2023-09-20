@@ -4,6 +4,7 @@ import lxml  # BS4使用，这里导入防止打包文件没有导入lxml
 import re
 
 
+
 def find_cve(html, data_text):
     """
     从html总提取官方补丁信息
