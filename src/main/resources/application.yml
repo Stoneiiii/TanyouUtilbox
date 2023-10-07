@@ -16,3 +16,24 @@ spring:
       enabled: true
       max-file-size: 2MB
       max-request-size: 10MB
+
+# 数据库
+spring:
+  datasource:
+    password: 12345
+    username: root
+    url: jdbc:mysql://localhost:3306/shiro_db?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    # druid配置
+    dbcp2:
+      initial-size: 5
+      min-idle: 5
+      max-wait-millis: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
