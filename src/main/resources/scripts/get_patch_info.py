@@ -4,14 +4,13 @@ import lxml  # BS4使用，这里导入防止打包文件没有导入lxml
 import re
 
 
-
 def find_cve(html, data_text):
     """
-    从html总提取官方补丁信息
+    从html中提取官方补丁信息
     :rtype: object
-    :param html:
-    :param data_text: <1>framework <2>system <3>google-play-system-updates <4>kernel
-    :return:
+    :param html: 传入谷歌每月发布Android漏洞页面下载后的html文件
+    :param data_text: <1>Framework <2>System <3>Kernel
+    :return: 字典文件:{cve编号，对应的url}
     """
 
     res = {}

@@ -17,5 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //  registry.addResourceHandler("/资源的访问路径").addResourceLocations("映射目录");
         registry.addResourceHandler(staticPatterPath + "**").addResourceLocations("file:" + uploadFolder);
+        // 测试用：探优数据库校对模块中dic能否访问到。
+        registry.addResourceHandler("res/**").addResourceLocations("classpath:/utilbox/");
     }
 }

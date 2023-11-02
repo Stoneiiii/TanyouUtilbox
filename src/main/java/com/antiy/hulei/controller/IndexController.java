@@ -46,11 +46,13 @@ public class IndexController {
         }
     }
 
+    //shiro测试
     @RequestMapping("/user/add")
     public String add(){
         return "user/add";
     }
 
+    //shiro测试
     @RequestMapping("/user/update")
     public String update(){
         return "user/update";

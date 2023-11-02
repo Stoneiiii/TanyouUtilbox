@@ -15,7 +15,6 @@ import os
 import argparse
 
 
-
 def load_xml(xml_file_path):
     """
     导入xml的案例，因为没有关闭文件，所以最好不要使用
@@ -47,7 +46,6 @@ def get_cnnvd_severity(soup, vuln_id):
     except:
         target_severity = None
     return target_severity
-
 
 
 def store_info_to_file(file_path, result_path):
@@ -94,8 +92,9 @@ def get_xml_path(path):
             xml_paths.append(os.path.join(dirpath, filepath))
     return xml_paths
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path',type = str,default = '')
+    parser.add_argument('--path', type=str, default='')
     args = parser.parse_args()
     print(get_xml_path(args.path))

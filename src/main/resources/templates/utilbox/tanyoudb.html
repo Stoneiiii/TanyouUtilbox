@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>探优数据库校对修正工具箱</title>
+</head>
+<body>
+  <div class="set_center">
+    <h1>上传CNNVD下载XML文件，生成字典文件</h1>
+    上传格式：仅支持zip<br>
+    要求：/*.xml，只含有下载的xml文件，不得含有其他文件<br>
+    <form>
+      <input type="file" id="fileInput" name="file" accept="text/html">
+      <input type="submit" id="upload" value="上传">
+      <p style="color: red" id="res" text="" th:if="${not #strings.isEmpty(res)}"></p>
+    </form>
+  </div>
+
+  <div class="set_center">
+    <h1>上传探优数据库文件，校对数据库</h1>
+    上传格式：仅支持.db文件<br>
+    SQL和报告在：.../res/tanyoudbbox/SQL/时间/...
+    <form>
+      <input type="file" id="dbFileInput" name="file" accept="text/html">
+      <input type="submit" id="dbUpload" value="上传">
+      <p style="color: red" id="dbRes" text=""></p>
+    </form>
+  </div>
+  <div>
+    选择要校对的字段名：
+    <form>
+      <input type="radio" name="dbField" value="cnnvd_no">cnnvd_no
+      <input type="radio" name="dbField" value="name">name
+      <input type="radio" name="dbField" value="severity">severity
+      <input type="radio" name="dbField" value="vul_type">vul_type
+      <input type="radio" name="dbField" value="source">source
+      <input type="radio" name="dbField" value="description">description
+      <input type="radio" name="dbField" value="date_exposure">date_exposure
+      <input type="radio" name="dbField" value="date_created">date_created<br>
+      <input type="submit" id="dbField-button" value="提交"><br>
+      <p style="color: red" id="dbField-res" text="${dbFieldMsg}" th:if="${not #strings.isEmpty(dbFieldMsg)}"></p>
+    </form>
+  </div>
+
+</body>
+
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<!--上传cnnvd下载xml的ajax-->
+<script>
+  $("#upload").click(function(e) {
+    e.preventDefault();
+    $("#res").text("运行中，请稍等.......");
+    $("#upload").prop('disabled', true);
+    var formData = new FormData();
+    formData.append('file', $('#fileInput')[0].files[0]);
+    $.ajax({
+      url: "/utlibox/tanyoudb/gendic",
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        if (data.toString() === "") {
+          alert("输入有误！！");
+          $("#upload").prop('disabled', false);
+        } else {
+          $("#res").html(data);
+          $("#upload").prop('disabled', false);
+        }
+      },
+      error: function () {
+        alert("输入有误！请重新输入！");
+        $("#upload").prop('disabled', false);
+      }
+    });
+  });
+</script>
+
+<!--上传tanyou数据库的ajax-->
+<script>
+  $("#dbUpload").click(function(e) {
+    e.preventDefault();
+    $("#dbRes").text("运行中，请稍等.......");
+    $("#dbUpload").prop('disabled', true);
+    var formData = new FormData();
+    formData.append('dbfile', $('#dbFileInput')[0].files[0]);
+    $.ajax({
+      url: "/utlibox/tanyoudb/uploaddb",
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        if (data.toString() === "") {
+          alert("输入有误！！");
+          $("#dbUpload").prop('disabled', false);
+        } else {
+          $("#dbRes").html(data);
+          $("#dbUpload").prop('disabled', false);
+        }
+      },
+      error: function () {
+        alert("输入有误！请重新输入！");
+        $("#dbUpload").prop('disabled', false);
+      }
+    });
+  });
+</script>
+
+<!--返回选择tanyou数据库字段的ajax-->
+<script>
+  $("#dbField-button").click(function(e) {
+    e.preventDefault();
+    var field= $('input[type=radio][name=dbField]:checked').val();
+    $("#dbField-res").text("运行中，请稍等.......");
+    $("#dbField-button").prop('disabled', true);
+    $.ajax({
+      url: "/utlibox/tanyoudb/modifydb",
+      type: 'POST',
+      dataType: "text",
+      data: {
+        "fieldName": field
+      },
+      success: function (data) {
+        if (data.toString() === "") {
+          alert("输入有误！！");
+          $("#dbField-button").prop('disabled', false);
+        } else {
+          $("#dbField-res").html(data)
+          $("#dbField-button").prop('disabled', false);
+        }
+      },
+      error: function () {
+        alert("输入有误！请重新输入！");
+        $("#dbField-button").prop('disabled', false);
+      }
+    });
+  });
+</script>
+
+
+</html>

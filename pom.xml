@@ -11,6 +11,8 @@
     <groupId>com.example</groupId>
     <artifactId>utilbox</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <!-- 指定打成war包 -->
+    <packaging>war</packaging>
     <name>utlibox</name>
     <description>utlibox</description>
     <properties>
@@ -52,6 +54,7 @@
             <version>3.4.1</version>
         </dependency>
 
+
         <!-- shiro spring -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -59,38 +62,47 @@
             <version>1.12.0</version>
         </dependency>
 
-        <!-- mysql依赖 -->
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec
+         计算文件MD5-->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
-        <!-- log4j -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-        <!-- 德鲁伊 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.2.16</version>
-        </dependency>
-        <!-- mybatis -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.2.2</version>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
-        </dependency>
+<!--        &lt;!&ndash; mysql依赖 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--            <version>8.0.33</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; log4j &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>log4j</groupId>-->
+<!--            <artifactId>log4j</artifactId>-->
+<!--            <version>1.2.17</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; 德鲁伊 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid</artifactId>-->
+<!--            <version>1.2.16</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; mybatis &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.mybatis.spring.boot</groupId>-->
+<!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--            <version>2.2.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>1.18.26</version>-->
+<!--        </dependency>-->
 
     </dependencies>
+
 
     <build>
         <plugins>
@@ -106,6 +118,8 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+
         </plugins>
     </build>
 

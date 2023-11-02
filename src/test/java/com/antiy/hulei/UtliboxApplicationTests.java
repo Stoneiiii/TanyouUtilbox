@@ -1,45 +1,55 @@
 package com.antiy.hulei;
 
-import com.antiy.hulei.service.UbliboxService;
+import com.antiy.hulei.service.UtilboxService;
+import com.antiy.hulei.util.CommonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ClassUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 
-import static com.antiy.hulei.util.PythonUtils.resolvePythonScriptPath;
+import static com.antiy.hulei.util.CommonUtils.resolveResFilePath;
 
 @SpringBootTest
 class UtliboxApplicationTests {
 
     @Autowired
-    UbliboxService ubliboxService;
+    UtilboxService utilboxService;
+
+
+    @Autowired
+    ResourceLoader resourceLoader;
+
     @Test
     void getPathServiceTest() throws IOException {
 
 
         String a = "/media/stone/data/myproject/python/modify_cve_cnvd/cnnvd";
-
-        System.out.println(ubliboxService.getPathService(a));
-
+        String[] s = utilboxService.getPathService(a);
+        for(String t : s) {
+            System.out.println(t);
+        }
 
     }
 
     @Test
     void resolvePythonScriptPathTest() {
-        System.out.println(resolvePythonScriptPath("scripts/find_info_from_cnnvd.py"));
+        System.out.println(resolveResFilePath("scripts/find_info_from_cnnvd.py"));
     }
 
     @Test
     void getPatchCmdTest() {
         String cveName = "CVE-2023-21145";
         String url = "https://android.googlesource.com/platform/frameworks/base/+/44aeef1b82ecf21187d4903c9e3666a118bdeaf3";
-        System.out.println(ubliboxService.getPatchCmd(cveName, url));
+        System.out.println(utilboxService.getPatchCmd(cveName, url));
     }
 
     @Test
@@ -75,5 +85,44 @@ class UtliboxApplicationTests {
     }
 
 
+    @Test
+    void zipTest() throws IOException {
+//        File zipFile = new File("/media/stone/data/myproject/python/modify_cve_cnvd/scripts_10.24.zip");
+
+        Resource dicRootPath = resourceLoader.getResource("classpath:");
+//        File unzipFile = new File(dicRootPath.getFile().getPath(), "tanyoudb");
+        System.out.println(dicRootPath.getFile().getPath());
+
+//        Unzip.zipDecompress(zipFile, unzipFile);
+    }
+
+
+    @Test
+    void resolveResDirPathTest() throws IOException {
+//        System.out.println(CommonUtils.resolveResDirPath("utilbox"));
+        System.out.println(CommonUtils.resolveResDirPath("utilbox/tanyoudbbox"));
+
+        ResourceLoader resourceLoader = new DefaultResourceLoader();
+        Resource resource = resourceLoader.getResource("file:" + "cnnvd_no_sql.txt");
+        String a = resource.getFile().getPath();
+
+
+
+//        try {
+//            FileReader fr = new FileReader(a);
+//            BufferedReader br = new BufferedReader(fr);
+//
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                System.out.println(line);
+//            }
+//
+//            br.close();
+//            fr.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(file.getPath());
+    }
 
 }

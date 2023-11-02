@@ -1,32 +1,24 @@
 package com.antiy.hulei.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
 
-@Component
 public class PythonUtils {
 
 
+    public PythonUtils() {
+        //python环境路径
+        String pythonEnv = "venv/bin/python3.8";
 
-    public static String resolvePythonScriptPath(String name) {
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource resource = resourceLoader.getResource("classpath:" + name);
+        //初始化执行CMD环境
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
 
-        try {
-            return resource.getFile().getPath();
-//            InputStream inputStream = resource.getInputStream();
-//            byte[] b = new byte[inputStream.available()];
-//            inputStream.read(b);
-//            return new String(b);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(streamHandler);
     }
+
+//    public static String
 }

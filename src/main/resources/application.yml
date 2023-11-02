@@ -1,6 +1,8 @@
-# 上传文件保存路径和访问路径
+# 上传文件服务中自定义的保存路径和访问路径
 file:
+  # 文件访问url路径：ip:port/{staticPatterPath}/.......
   staticPatterPath: /upload/
+  # 文件保存路径:注意给读写访问权限
   uploadFolder: /tmp/
 
 # 自定义tomcat临时文件目录
@@ -14,8 +16,11 @@ spring:
     multipart:
       location: /tmp
       enabled: true
-      max-file-size: 2MB
-      max-request-size: 10MB
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+python:
+  # python环境路径：最好与根目录（pom.xml）
 
 # 数据库
 #spring:
