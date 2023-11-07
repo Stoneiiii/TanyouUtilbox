@@ -9,17 +9,19 @@
     <h1>上传CNNVD下载XML文件，生成字典文件</h1>
     上传格式：仅支持zip<br>
     要求：/*.xml，只含有下载的xml文件，不得含有其他文件<br>
+    <a th:href="@{/todir/tanyoudbbox-cnnvd}">cnnvd文件目录</a>
     <form>
       <input type="file" id="fileInput" name="file" accept="text/html">
       <input type="submit" id="upload" value="上传">
-      <p style="color: red" id="res" text="" th:if="${not #strings.isEmpty(res)}"></p>
+      <p style="color: red" id="res" text=""></p>
     </form>
   </div>
 
   <div class="set_center">
     <h1>上传探优数据库文件，校对数据库</h1>
     上传格式：仅支持.db文件<br>
-    SQL和报告在：.../res/tanyoudbbox/SQL/时间/...
+    <a th:href="@{/todir/tanyoudbbox-db}">db文件目录</a>
+    <br>
     <form>
       <input type="file" id="dbFileInput" name="file" accept="text/html">
       <input type="submit" id="dbUpload" value="上传">
@@ -27,7 +29,7 @@
     </form>
   </div>
   <div>
-    选择要校对的字段名：
+    选择要校对的字段名或者用Cnnvd编号去反查：
     <form>
       <input type="radio" name="dbField" value="cnnvd_no">cnnvd_no
       <input type="radio" name="dbField" value="name">name
@@ -37,10 +39,13 @@
       <input type="radio" name="dbField" value="description">description
       <input type="radio" name="dbField" value="date_exposure">date_exposure
       <input type="radio" name="dbField" value="date_created">date_created<br>
-      <input type="submit" id="dbField-button" value="提交"><br>
-      <p style="color: red" id="dbField-res" text="${dbFieldMsg}" th:if="${not #strings.isEmpty(dbFieldMsg)}"></p>
+      <input type="radio" name="dbField" value="fancha">Cnnvd反查<br>
+      <input type="submit" id="dbField-button" value="提交">
+      <a th:href="@{/todir/tanyoudbbox-sql}">sql和报告文件目录</a>
+      <p style="color: red" id="dbField-res" text="" ></p>
     </form>
   </div>
+
 
 </body>
 
@@ -62,6 +67,7 @@
       success: function (data) {
         if (data.toString() === "") {
           alert("输入有误！！");
+          $("#res").text("输入有误！请再试！");
           $("#upload").prop('disabled', false);
         } else {
           $("#res").html(data);
@@ -70,6 +76,7 @@
       },
       error: function () {
         alert("输入有误！请重新输入！");
+        $("#res").text("输入有误！请再试！");
         $("#upload").prop('disabled', false);
       }
     });
@@ -93,6 +100,7 @@
       success: function (data) {
         if (data.toString() === "") {
           alert("输入有误！！");
+          $("#dbRes").text("输入有误！请再试！");
           $("#dbUpload").prop('disabled', false);
         } else {
           $("#dbRes").html(data);
@@ -101,6 +109,7 @@
       },
       error: function () {
         alert("输入有误！请重新输入！");
+        $("#dbRes").text("输入有误！请再试！");
         $("#dbUpload").prop('disabled', false);
       }
     });
@@ -114,6 +123,8 @@
     var field= $('input[type=radio][name=dbField]:checked').val();
     $("#dbField-res").text("运行中，请稍等.......");
     $("#dbField-button").prop('disabled', true);
+    $("#upload").prop('disabled', true);
+    $("#dbUpload").prop('disabled', true);
     $.ajax({
       url: "/utlibox/tanyoudb/modifydb",
       type: 'POST',
@@ -124,15 +135,23 @@
       success: function (data) {
         if (data.toString() === "") {
           alert("输入有误！！");
+          $("#dbField-res").text("输入有误！请重新输入！");
           $("#dbField-button").prop('disabled', false);
+          $("#upload").prop('disabled', false);
+          $("#dbUpload").prop('disabled', false);
         } else {
           $("#dbField-res").html(data)
           $("#dbField-button").prop('disabled', false);
+          $("#upload").prop('disabled', false);
+          $("#dbUpload").prop('disabled', false);
         }
       },
       error: function () {
         alert("输入有误！请重新输入！");
+        $("#dbField-res").text("输入有误！请重新输入！");
         $("#dbField-button").prop('disabled', false);
+        $("#upload").prop('disabled', false);
+        $("#dbUpload").prop('disabled', false);
       }
     });
   });

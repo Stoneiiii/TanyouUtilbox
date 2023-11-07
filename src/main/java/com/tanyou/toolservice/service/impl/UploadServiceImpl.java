@@ -1,6 +1,6 @@
-package com.antiy.hulei.service.impl;
+package com.tanyou.toolservice.service.impl;
 
-import com.antiy.hulei.service.UploadService;
+import com.tanyou.toolservice.service.UploadService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

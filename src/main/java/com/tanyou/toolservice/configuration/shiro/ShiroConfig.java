@@ -1,4 +1,4 @@
-package com.antiy.hulei.configuration.shiro;
+package com.tanyou.toolservice.configuration.shiro;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -28,7 +28,10 @@ public class ShiroConfig {
             role：拥有某个角色权限才能访问
          */
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/user/*", "authc");
+//        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/toAutoextracve", "anon");
+        filterChainDefinitionMap.put("/toTanyoudb", "anon");
+
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 

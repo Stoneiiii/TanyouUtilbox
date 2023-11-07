@@ -1,4 +1,4 @@
-package com.antiy.hulei.controller;
+package com.tanyou.toolservice.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -46,15 +46,17 @@ public class IndexController {
         }
     }
 
-    //shiro测试
-    @RequestMapping("/user/add")
-    public String add(){
-        return "user/add";
+    //跳转漏洞提取工具箱
+    @RequestMapping("/toAutoextracve")
+    public String toAutoextracve(){
+        return "utilbox/autoextracve";
     }
 
-    //shiro测试
-    @RequestMapping("/user/update")
-    public String update(){
-        return "user/update";
+    //跳转探优数据库工具箱
+    @RequestMapping("/toTanyoudb")
+    public String toTanyoudb(){
+        return "utilbox/tanyoudb";
     }
+
+
 }

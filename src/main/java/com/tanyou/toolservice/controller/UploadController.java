@@ -1,6 +1,6 @@
-package com.antiy.hulei.controller;
+package com.tanyou.toolservice.controller;
 
-import com.antiy.hulei.service.UploadService;
+import com.tanyou.toolservice.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

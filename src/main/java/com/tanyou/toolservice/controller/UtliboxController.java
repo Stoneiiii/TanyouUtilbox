@@ -1,14 +1,12 @@
-package com.antiy.hulei.controller;
+package com.tanyou.toolservice.controller;
 
-import com.antiy.hulei.service.UtilboxService;
-import com.antiy.hulei.util.CommonUtils;
+import com.tanyou.toolservice.service.UtilboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -105,7 +103,7 @@ public class UtliboxController {
 
         //解析压缩包
         if (utilboxService.genCnnvdDic(multipartFile)) {
-            return "生成字典成功！<br>字典文件下载链接：.../res/tanyoudbbox/dic/dic.txt";
+            return "生成字典成功！";
         }else {
             return "生成字典失败！";
         }
@@ -135,7 +133,7 @@ public class UtliboxController {
         //保存上传db到静态目录
         String md5 = utilboxService.storeTanyoudb(multipartFile);
 
-        return "上传数据库成功！<br>访问路径：.../res/tanyoudbbox/db/tanyoudb.db<br>MD5:" + md5;
+        return "上传数据库成功！<br>MD5:" + md5;
     }
 
 
@@ -159,5 +157,6 @@ public class UtliboxController {
         //校对数据库该字段,并返回结果报告
         return utilboxService.modifyTanyoudbField(filedName).replace("\n", "<br>");
     }
+
 
 }

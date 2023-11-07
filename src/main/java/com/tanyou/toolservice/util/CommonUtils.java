@@ -1,4 +1,4 @@
-package com.antiy.hulei.util;
+package com.tanyou.toolservice.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.core.io.DefaultResourceLoader;

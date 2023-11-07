@@ -2,8 +2,15 @@
 file:
   # 文件访问url路径：ip:port/{staticPatterPath}/.......
   staticPatterPath: /upload/
-  # 文件保存路径:注意给读写访问权限
-  uploadFolder: /tmp/
+  # 上传文件保存路径:注意给读写访问权限
+  uploadFolder: /tmp/utilbox/upload/
+  # tanyoudb报告目录
+  utilboxFileRootPath: /tmp/utilbox/
+
+#探优工具箱模块的一些配置
+utilbox:
+  #文件范文的url路径：ip:port/{staticOutPath}/....
+  staticOutPath: /res/
 
 # 自定义tomcat临时文件目录
 #server:
@@ -21,6 +28,17 @@ spring:
 
 python:
   # python环境路径：最好与根目录（pom.xml）
+  pythonEnv: venv/bin/python3.8
+
+sfe4j:
+  title: "探优数据库校对脚本的结果文件"
+  description: "校对脚本字段后，生成的SQL和报告"
+  quick-links:
+    root: ${file.utilboxFileRootPath}
+    tanyoudbbox: ${file.utilboxFileRootPath}tanyoudbbox/
+  base-dir-path: ${file.utilboxFileRootPath}
+  restrict-to-base-dir: true
+
 
 # 数据库
 #spring:

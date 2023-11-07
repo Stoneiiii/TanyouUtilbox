@@ -1,22 +1,16 @@
-package com.antiy.hulei;
+package com.tanyou.toolservice;
 
-import com.antiy.hulei.service.UtilboxService;
-import com.antiy.hulei.util.CommonUtils;
+import com.tanyou.toolservice.service.UtilboxService;
+import com.tanyou.toolservice.util.CommonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.ClassUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
 
-import static com.antiy.hulei.util.CommonUtils.resolveResFilePath;
+import static com.tanyou.toolservice.util.CommonUtils.resolveResFilePath;
 
 @SpringBootTest
 class UtliboxApplicationTests {
@@ -100,12 +94,17 @@ class UtliboxApplicationTests {
     @Test
     void resolveResDirPathTest() throws IOException {
 //        System.out.println(CommonUtils.resolveResDirPath("utilbox"));
-        System.out.println(CommonUtils.resolveResDirPath("utilbox/tanyoudbbox"));
+//        System.out.println(CommonUtils.resolveResDirPath("utilbox/tanyoudbbox"));
 
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        Resource resource = resourceLoader.getResource("file:" + "cnnvd_no_sql.txt");
-        String a = resource.getFile().getPath();
 
+//
+//        ResourceLoader resourceLoader = new DefaultResourceLoader();
+//        Resource resource = resourceLoader.getResource("classpath:" + "utilbox/tanyoudbbox/dic/dic.txt");
+//        Resource resource1 = resourceLoader.getResource("classpath:utilbox");
+//        System.out.println(resource.getFile().getPath());
+//        System.out.println(resource1.getFile().getPath());
+
+        System.out.println(CommonUtils.isFileExist("/tmp/utilbox/tanyoudbbox/db"));
 
 
 //        try {
