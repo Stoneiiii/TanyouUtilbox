@@ -2,6 +2,7 @@ package com.tanyou.toolservice;
 
 import com.tanyou.toolservice.service.UtilboxService;
 import com.tanyou.toolservice.util.CommonUtils;
+import com.tanyou.toolservice.util.TanyouSvrAndroidVersionEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,7 +44,7 @@ class UtliboxApplicationTests {
     void getPatchCmdTest() {
         String cveName = "CVE-2023-21145";
         String url = "https://android.googlesource.com/platform/frameworks/base/+/44aeef1b82ecf21187d4903c9e3666a118bdeaf3";
-        System.out.println(utilboxService.getPatchCmd(cveName, url));
+        System.out.println(utilboxService.getPatchCmd(cveName, url, "13"));
     }
 
     @Test
@@ -106,6 +107,7 @@ class UtliboxApplicationTests {
 
         System.out.println(CommonUtils.isFileExist("/tmp/utilbox/tanyoudbbox/db"));
 
+        System.out.println(TanyouSvrAndroidVersionEnum.getTanyouAndroidVersion("14"));
 
 //        try {
 //            FileReader fr = new FileReader(a);

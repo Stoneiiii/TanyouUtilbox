@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>提取Android官方补丁命令</title>
+    <title>提取Android官方补丁工具箱</title>
 </head>
 <body class="am-text-center">
     <div class="set_center">
@@ -13,6 +13,8 @@
         <input type="text" class="form-control" id="cvename" required="required" autofocus=""><br>
         <label>URL&emsp;:</label>
         <input type="text" id="url" class="form-control" required="required" autofocus=""><br>
+        <label>影响的最高Android版本号（11，12，12L，13，14）：</label>
+        <input type="text" id="androidVersion" class="form-control" required="required" autofocus=""><br>
         <button class="btn-box" id="generate">生成</button><br>
         <span id="res"></span>
     </div>
@@ -29,6 +31,11 @@
     </div>
 
     <div id="cvetable" th:fragment="cvetable">
+        <style>
+            td {
+                white-space: pre-wrap;
+            }
+        </style>
         <table>
             <tr>
                 <th>漏洞名</th>
@@ -50,7 +57,8 @@
                 dataType: "text",
                 data: {
                     "cveName": $("#cvename").val(),
-                    "url": $("#url").val()
+                    "url": $("#url").val(),
+                    "androidVersion": $("#androidVersion").val()
                 },
                 success: function (data) {
                     if (data.toString() === "") {

@@ -2,10 +2,7 @@ package com.tanyou.toolservice.service.impl;
 
 import com.tanyou.toolservice.service.UtilboxService;
 import com.tanyou.toolservice.service.UploadService;
-import com.tanyou.toolservice.util.CommonUtils;
-import com.tanyou.toolservice.util.PythonUtils;
-import com.tanyou.toolservice.util.TanyoudbboxReportFilenameEnum;
-import com.tanyou.toolservice.util.Unzip;
+import com.tanyou.toolservice.util.*;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
@@ -44,6 +41,7 @@ public class UtliboxServiceImpl implements UtilboxService {
      */
     @Override
     public String[] getPathService(String path) {
+        //todo:使用的话 需要把pothon脚本调用那块代码抽取出来到pythonutil层
         String returnValue = null;
 
         //python路径
@@ -82,15 +80,20 @@ public class UtliboxServiceImpl implements UtilboxService {
      *
      * @param cveName CVE编号
      * @param url     官方url信息
+     * @param androidVersion 补丁最高的安卓版本号
      * @return String: 一句话提取官方补丁CMD
      */
     @Override
-    public String getPatchCmd(String cveName, String url) {
+    public String getPatchCmd(String cveName, String url, String androidVersion) {
         //todo: 把一些变量抽取出成配置文件。
 
         // 拼接CMD准备
         String creatPatchDirCMD = "mkdir -p /data/extraPatch/";
-        String intoPatchDirCMD = "cd /data/androidSource/getPatch/android-13.0.0_r1/";
+        //判断Android版本号
+        if (TanyouSvrAndroidVersionEnum.getTanyouAndroidVersion(androidVersion) == null) {
+            return String.format("Android%s版本还不支持提取！", androidVersion);
+        }
+        String intoPatchDirCMD = String.format("cd /data/androidSource/getPatch/%s/", TanyouSvrAndroidVersionEnum.getTanyouAndroidVersion(androidVersion));
         String extractPatchCMD = "git checkout ";
         String movePatchCMD = "for name in *.patch; do mv \"$name\" \"/data/extraPatch/";
         creatPatchDirCMD = creatPatchDirCMD + cveName;
@@ -124,9 +127,9 @@ public class UtliboxServiceImpl implements UtilboxService {
         creatPatchDirCMD = creatPatchDirCMD + "/" + path;
         intoPatchDirCMD = intoPatchDirCMD + path;
         extractPatchCMD = extractPatchCMD + commit + " && " + "git format-patch -1 " + commit;
-        movePatchCMD = movePatchCMD + "/" + path + "${name/0001/000$b}\"; done\n && gst";
+        movePatchCMD = movePatchCMD + "/" + path + "${name/0001/000$b}\"; done && gst";
         //加提取成功后，显示成功的信息
-        String resultCMD = " && echo -e \"\\033[43;32m 提取成功！！\\033[0m\"";
+        String resultCMD = String.format(" && echo -e \"\\033[43;32m %s提取成功！！\\033[0m\"", cveName);
         // 最终组合CMD并返回
         return creatPatchDirCMD + " && " + fileNumCMD + " && " + intoPatchDirCMD + " && " + extractPatchCMD + " && " + movePatchCMD + resultCMD;
     }
@@ -143,7 +146,7 @@ public class UtliboxServiceImpl implements UtilboxService {
      */
     @Override
     public Map<String, List<String>> parseHtml(MultipartFile multipartFile, String dir, String type) {
-        //TODO: 判断影响安卓版本包含13？因为有些补丁并没有影响13
+        //TODO: 有一行出现2个CVE编号的情况，只能适配一个CVE，应该为每个CVE编号提取补丁，并判断为同一个：2023.7月CVE-2022-27405, CVE-2022-27406
 
         // 获得上传文件的绝对路径
         String targetFilePath = uploadService.getUploadFileABSPath(multipartFile, dir);
@@ -164,6 +167,7 @@ public class UtliboxServiceImpl implements UtilboxService {
                         .replace("'", "");
                 returnMap.get(cveNameUrlPair[0]).add(tmp);
             }
+            returnMap.get(cveNameUrlPair[0]).add(cveNameUrlPair[2]);
         }
 
         return returnMap;

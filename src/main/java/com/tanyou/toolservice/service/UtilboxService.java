@@ -15,9 +15,10 @@ public interface UtilboxService {
      * 提取补丁存放目录：/data/extraPatch
      * @param cveName CVE编号
      * @param url 官方url信息
+     * @param androidVersion 补丁最高的安卓版本号
      * @return String: 一句话提取官方补丁CMD
      */
-    public String getPatchCmd(String cveName, String url);
+    public String getPatchCmd(String cveName, String url, String androidVersion);
 
     //提取补丁：解析上传的html，获得cveName和url
     /**

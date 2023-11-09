@@ -27,8 +27,9 @@ public class UtliboxController {
      */
     @PostMapping("/getpatch/gencmd")
     public String getCveCmd(@RequestParam("cveName") String cveName,
-                                  @RequestParam("url") String url) {
-        return utilboxService.getPatchCmd(cveName, url);
+                            @RequestParam("url") String url,
+                            @RequestParam("androidVersion") String androidVersion) {
+        return utilboxService.getPatchCmd(cveName, url, androidVersion);
     }
 
 
@@ -44,6 +45,7 @@ public class UtliboxController {
     @ResponseBody
     public ModelAndView getAllCveCmd(@RequestParam("file") MultipartFile multipartFile,
                                       HttpServletRequest request) {
+        //todo: 进一步提取成方法，简化代码
         //上传为空的判断
         if (multipartFile.isEmpty()) {
             System.out.println("上传为空");
@@ -57,16 +59,28 @@ public class UtliboxController {
 
         //生成Mam<cveName, 一句话CMD>
         Map<String, String> returnValue = new LinkedHashMap<>();
+        Map<String, String> urlUniqueMap = new HashMap<>();
         for (String cveName : cvenameUrlMap.keySet()) {
             int count = 0; //计数url个数：也就是一个cveName 对应多个补丁
-            for(String url : cvenameUrlMap.get(cveName)){
+            List<String> curCvenameUrlMap = cvenameUrlMap.get(cveName);
+            String androidVersion = curCvenameUrlMap.get(curCvenameUrlMap.size() - 1);
+            curCvenameUrlMap.remove(curCvenameUrlMap.size() - 1);
+            for(String url : curCvenameUrlMap){
                 // 获得一句话CMD
-                String cmd = utilboxService.getPatchCmd(cveName, url);
+                String cmd = utilboxService.getPatchCmd(cveName, url, androidVersion);
+                // 判断重复url:意味着不同的CVE编号，对应同一个漏洞
+                String repeatNotice = "";
+                if(urlUniqueMap.containsKey(url)) {
+                    repeatNotice ="\n和" + urlUniqueMap.get(url) + "补丁相同！";
+                }else {
+                    urlUniqueMap.put(url, cveName);
+                    repeatNotice = "";
+                }
                 // 如果一个cveName对应了多个补丁，在cveName后追加一个序号：CVE-2023-21244_1
                 if (count != 0) {
-                    returnValue.put(cveName + '_'+ count, cmd);
+                    returnValue.put(cveName + '_'+ count + repeatNotice, cmd);
                 }else {
-                    returnValue.put(cveName, cmd);
+                    returnValue.put(cveName + repeatNotice, cmd);
                 }
                 count++;
             }

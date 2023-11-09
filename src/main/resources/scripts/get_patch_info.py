@@ -28,6 +28,9 @@ def find_cve(html, data_text):
     for tr in trs:
         cvename = ""
         url_list = []
+        android_version = str(tr.contents[9]) \
+            .replace('<td>', '').replace('</td>', '').replace(" ", '') \
+            .split(',')[-1]
         for td in tr:
             # 去除空行
             if td == '\n':
@@ -46,10 +49,10 @@ def find_cve(html, data_text):
                     # print(url['href'])
             # print(td)
             # print(url_list)
-        if cvename == '' and url_list == []:
+        if cvename == '' and url_list == [] and android_version == '':
             print("error:提取异常！")
             return None
-        res[cvename] = url_list  # 写进map
+        res[cvename] = [url_list, android_version]  # 写进map
         # print('---------------')
     # print("提取数量:"+str(len(res)))
     if cve_num != len(res):
@@ -65,7 +68,7 @@ def main(path, type):
     if dic is None:
         return
     for key, value in dic.items():
-        print(key + "::" + str(value))
+        print(key + "::" + str(value[0]) + "::" + str(value[1]))
 
 
 if __name__ == '__main__':

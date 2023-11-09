@@ -76,7 +76,7 @@ public class UploadServiceImpl implements UploadService {
             // 7：文件上传
             multipartFile.transferTo(dirFileName);
             // 返回最终路径: 或者可访问的路径 http://ip:port/{staticPatterPath}/{dir的值}/dfasf42432.xxx
-            return uploadFolder + dir + '/' + newFileName;
+            return uploadFolder + dir + File.separator + newFileName;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
