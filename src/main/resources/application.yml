@@ -4,7 +4,7 @@ file:
   staticPatterPath: /upload/
   # 上传文件保存路径:注意给读写访问权限
   uploadFolder: /tmp/utilbox/upload/
-  # tanyoudb报告目录
+  # 工具箱资源目录
   utilboxFileRootPath: /tmp/utilbox/
 
 #探优工具箱模块的一些配置

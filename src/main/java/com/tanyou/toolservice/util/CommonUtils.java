@@ -1,10 +1,12 @@
 package com.tanyou.toolservice.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,9 +16,20 @@ import java.nio.file.Files;
 @Component
 public class CommonUtils {
 
+    public static String utilboxFileRootPath;
+
+    @Value("${file.utilboxFileRootPath}")
+    public void setUtilboxFileRootPath(String utilboxFileRootPath) {
+        CommonUtils.utilboxFileRootPath = utilboxFileRootPath;
+    }
+
+    public String getUtilboxFileRootPath() {
+        return utilboxFileRootPath;
+    }
+
 
     /**
-     * 返回资源目录下的文件的目录
+     * 返回资源目录下的文件的目录，并且复制到工具箱资源目录下scripts文件夹
      * @param filename 文件名
      * @return 文件路径
      */
@@ -25,7 +38,10 @@ public class CommonUtils {
         Resource resource = resourceLoader.getResource("classpath:" + filename);
 
         try {
-            return resource.getFile().getPath();
+            File inuModel = new File(utilboxFileRootPath, filename);
+            FileUtils.copyToFile(resource.getInputStream(), inuModel);
+            return inuModel.getPath();
+//            return resource.getFile().getPath();
 //            InputStream inputStream = resource.getInputStream();
 //            byte[] b = new byte[inputStream.available()];
 //            inputStream.read(b);

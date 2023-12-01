@@ -20,7 +20,7 @@ public class PythonUtils {
         PythonUtils.pythonEnv = pythonEnv;
     }
 
-    public String getkey() {
+    public String getPythonEnv() {
         return pythonEnv;
     }
 
@@ -112,8 +112,6 @@ public class PythonUtils {
         String pythonFilePath = CommonUtils.resolveResFilePath("scripts/modify_tanyoudb.py");
         //python脚本选择运行那个功能：option的值
         String option = "1";
-        //python环境路径
-        String pythonEnv = "venv/bin/python3.8";
         //构造python命令：python环境 + python脚本 + 传入参数
         String line = pythonEnv + " " + pythonFilePath
                 + " " + option
