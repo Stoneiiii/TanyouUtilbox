@@ -41,7 +41,7 @@ public class UtliboxServiceImpl implements UtilboxService {
      */
     @Override
     public String[] getPathService(String path) {
-        //todo:使用的话 需要把pothon脚本调用那块代码抽取出来到pythonutil层
+        //todo:使用的话 需要把python脚本调用那块代码抽取出来到pythonutil层
         String returnValue = null;
 
         //python路径

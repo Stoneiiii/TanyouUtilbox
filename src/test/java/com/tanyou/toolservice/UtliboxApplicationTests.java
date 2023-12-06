@@ -23,17 +23,6 @@ class UtliboxApplicationTests {
     @Autowired
     ResourceLoader resourceLoader;
 
-    @Test
-    void getPathServiceTest() throws IOException {
-
-
-        String a = "/media/stone/data/myproject/python/modify_cve_cnvd/cnnvd";
-        String[] s = utilboxService.getPathService(a);
-        for(String t : s) {
-            System.out.println(t);
-        }
-
-    }
 
     @Test
     void resolvePythonScriptPathTest() {

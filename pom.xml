@@ -86,7 +86,13 @@
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
         </dependency>
-<!--        &lt;!&ndash; mysql依赖 &ndash;&gt;-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>4.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!--        &lt;!&ndash; mysql依赖 &ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>mysql</groupId>-->
 <!--            <artifactId>mysql-connector-java</artifactId>-->

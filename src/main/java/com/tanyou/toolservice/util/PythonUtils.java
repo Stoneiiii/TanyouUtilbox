@@ -100,7 +100,7 @@ public class PythonUtils {
     }
 
     /**
-     * 调用modify_tanyoudb.py脚本，校对数据库，生成结果
+     * 调用modify_tanyoudb.py脚本，校对数据库字段，生成结果
      * @param tanyoudbPath 数据库路径
      * @param field 数据库字段名
      * @param dicPath 字典文件路径
@@ -144,14 +144,18 @@ public class PythonUtils {
     }
 
 
+    /**
+     * 用modify_tanyoudb.py脚本，通过cnnvd反查cve，生成结果
+     * @param tanyoudbPath
+     * @param dicPath
+     * @return
+     */
     public static String modifyTanyoudb(String tanyoudbPath, String dicPath) {
         String pythonReturn = null;
         //生成CMD命令的python脚本路径
         String pythonFilePath = CommonUtils.resolveResFilePath("scripts/modify_tanyoudb.py");
         //python脚本选择运行那个功能：option的值
         String option = "2";
-        //python环境路径
-        String pythonEnv = "venv/bin/python3.8";
         //构造python命令：python环境 + python脚本 + 传入参数
         String line = pythonEnv + " " + pythonFilePath
                 + " " + option
