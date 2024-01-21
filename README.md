@@ -12,3 +12,6 @@ This is a Springboot-based toolkit site for integrating some tools for operating
 
 # Usage
 Modify the contents of  application.yml  to ensure that it works in the Python script in folder resources/scripts/.
+
+# Contributing
+Thanks for [DartNode](https://app.dartnode.com/)) as a sponsor
